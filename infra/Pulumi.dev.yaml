@@ -1,2 +1,3 @@
 config:
   gcp:project: antenna-491917
+  antenna:github_repo: krcm0209/antenna

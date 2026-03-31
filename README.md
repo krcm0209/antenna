@@ -117,17 +117,44 @@ AM contours are fetched on-demand from the [FCC Entity API](https://geo.fcc.gov/
 ## Docker
 
 ```sh
-docker build -t antenna .
+docker build --target production -t antenna .
 docker run -p 8080:8080 antenna
 ```
 
 Note: the `fcc.db` file must exist before building the image. Run the sync first.
 
+## Infrastructure
+
+GCP infrastructure is managed with [Pulumi](https://www.pulumi.com/) in the `infra/` directory. It provisions:
+
+- Artifact Registry (Docker repo)
+- Service account for GitHub Actions
+- Workload Identity Federation (OIDC, no static keys)
+- Required GCP APIs
+
+```sh
+cd infra
+pulumi up
+```
+
+Stack outputs provide the values needed for GitHub Actions secrets (`GCP_PROJECT_ID`, `GCP_WIF_PROVIDER`, `GCP_SERVICE_ACCOUNT`).
+
+## CI/CD
+
+Three GitHub Actions workflows in `.github/workflows/`:
+
+| Workflow | Trigger | What it does |
+|----------|---------|--------------|
+| `ci.yml` | Push/PR to main | Lint (ruff), type check (ty), test (pytest) |
+| `release.yml` | Push to main | Maintains a release PR via release-please |
+| `deploy.yml` | Release published or manual | Builds image, pushes to Artifact Registry, deploys to Cloud Run |
+
 ## Development
 
 ```sh
-uv sync --group dev
-uv run ruff check src/          # lint
+uv sync --group dev              # app + dev tools
+uv sync --all-groups             # include infra (Pulumi) deps
+uv run ruff check src/           # lint
 uv run ty check src/             # type check
 uv run fastapi dev src/antenna/main.py  # dev server with auto-reload
 ```
