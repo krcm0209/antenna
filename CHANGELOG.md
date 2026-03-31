@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.1](https://github.com/krcm0209/antenna/compare/v0.1.0...v0.1.1) (2026-03-31)
+
+
+### Bug Fixes
+
+* **ci:** trigger deploy workflow after release-please creates a release ([8c6ec5a](https://github.com/krcm0209/antenna/commit/8c6ec5a07cec7657e4af231ebc5051bd5b708554))
+
 ## 0.1.0 (2026-03-31)
 
 
