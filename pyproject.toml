@@ -1,0 +1,55 @@
+[project]
+name = "antenna"
+version = "0.1.0"
+description = "A radio station API powered by FCC broadcast data"
+readme = "README.md"
+authors = [
+    { name = "Kyle Krcmaric", email = "kyle.krcmaric@ozmoapp.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "aiolimiter",
+    "fastapi[standard]",
+    "httpx",
+    "pydantic-settings",
+    "shapely",
+    "sqlmodel",
+]
+
+[dependency-groups]
+dev = [
+    "ruff",
+    "ty",
+    "pytest",
+    "pytest-asyncio",
+]
+
+[build-system]
+requires = ["uv_build>=0.8.1,<0.9.0"]
+build-backend = "uv_build"
+
+[tool.ruff]
+target-version = "py314"
+line-length = 100
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "F",    # pyflakes
+    "W",    # pycodestyle warnings
+    "I",    # isort
+    "UP",   # pyupgrade
+    "B",    # flake8-bugbear
+    "SIM",  # flake8-simplify
+    "C4",   # flake8-comprehensions
+    "RUF",  # ruff-specific rules
+]
+ignore = [
+    "E501",  # line too long (handled by formatter)
+]
+
+[tool.ruff.lint.flake8-bugbear]
+# B008 flags function calls in default arguments as a potential bug (mutable default).
+# FastAPI's Query() and Depends() are safe to use this way — they are declarative
+# markers consumed by the framework, not mutable state shared across calls.
+extend-immutable-calls = ["fastapi.Depends", "fastapi.Query"]
