@@ -31,7 +31,7 @@ def _haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
     return r * 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
 
 
-def _estimate_signal_dbm(erp_kw: float, frequency_mhz: float, distance_km: float) -> float | None:
+def _estimate_signal_dbm(erp_kw: float | None, frequency_mhz: float, distance_km: float) -> float | None:
     """Estimate received signal strength using free-space path loss.
 
     FSPL (dB) = 20·log10(d_km) + 20·log10(f_MHz) + 32.45

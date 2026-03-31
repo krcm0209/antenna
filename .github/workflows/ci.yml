@@ -25,5 +25,8 @@ jobs:
 
       - uses: astral-sh/setup-uv@v8.0.0
 
+      - name: Install SpatiaLite
+        run: sudo apt-get update && sudo apt-get install -y libsqlite3-mod-spatialite
+
       - run: uv sync --group dev
       - run: uv run pytest
