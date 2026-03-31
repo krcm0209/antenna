@@ -7,10 +7,12 @@
   },
   "features": {
     "ghcr.io/devcontainers/features/git:1": {},
-    "ghcr.io/devcontainers/features/github-cli:1": {},
-    "ghcr.io/devcontainers/features/node:1": {}
+    "ghcr.io/devcontainers/features/github-cli:1": {}
   },
-  "postCreateCommand": "uv sync",
+  "mounts": [
+    "source=claude-config,target=/root/.claude,type=volume"
+  ],
+  "postCreateCommand": "uv sync && if [ -f /root/.claude/.claude.json ] && [ ! -f /root/.claude.json ]; then ln -s /root/.claude/.claude.json /root/.claude.json; fi && curl -fsSL https://claude.ai/install.sh | bash",
   "containerEnv": {
     "FCC_API_SPATIALITE_PATH": "mod_spatialite"
   },

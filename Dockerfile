@@ -6,7 +6,11 @@ RUN apt-get update \
 
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/uv
 
+ENV PATH="/root/.local/bin:$PATH"
+
 WORKDIR /app
+
+CMD ["sleep", "infinity"]
 
 FROM base AS production
 
