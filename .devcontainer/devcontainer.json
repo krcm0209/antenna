@@ -12,9 +12,12 @@
   "mounts": [
     "source=claude-config,target=/root/.claude,type=volume"
   ],
-  "postCreateCommand": "uv sync && if [ -f /root/.claude/.claude.json ] && [ ! -f /root/.claude.json ]; then ln -s /root/.claude/.claude.json /root/.claude.json; fi && curl -fsSL https://claude.ai/install.sh | bash",
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
   "containerEnv": {
     "FCC_API_SPATIALITE_PATH": "mod_spatialite"
+  },
+  "remoteEnv": {
+    "PATH": "/root/.pulumi/bin:/opt/google-cloud-sdk/bin:${containerEnv:PATH}"
   },
   "customizations": {
     "vscode": {

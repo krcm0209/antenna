@@ -23,6 +23,15 @@ dev = [
     "pytest",
     "pytest-asyncio",
 ]
+infra = [
+    "antenna-infra",
+]
+
+[tool.uv.workspace]
+members = ["infra"]
+
+[tool.uv.sources]
+antenna-infra = { workspace = true }
 
 [build-system]
 requires = ["uv_build>=0.8.1,<0.9.0"]
