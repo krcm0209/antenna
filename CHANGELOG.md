@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/krcm0209/antenna/compare/v0.3.0...v0.4.0) (2026-04-01)
+
+
+### Features
+
+* add dashboard SPA and enable IAP on Cloud Run ([29184f7](https://github.com/krcm0209/antenna/commit/29184f7cb6bb8007cc3447f8a2d67cf78273cb39))
+
 ## [0.3.0](https://github.com/krcm0209/antenna/compare/v0.2.5...v0.3.0) (2026-04-01)
 
 
