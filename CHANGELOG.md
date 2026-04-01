@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.3](https://github.com/krcm0209/antenna/compare/v0.2.2...v0.2.3) (2026-04-01)
+
+
+### Bug Fixes
+
+* use --no-sources in Dockerfile to skip workspace resolution ([e424e4d](https://github.com/krcm0209/antenna/commit/e424e4dccf56f8733b6008ff491152ff33f8620d))
+
 ## [0.2.2](https://github.com/krcm0209/antenna/compare/v0.2.1...v0.2.2) (2026-04-01)
 
 
