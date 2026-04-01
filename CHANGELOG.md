@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.5](https://github.com/krcm0209/antenna/compare/v0.2.4...v0.2.5) (2026-04-01)
+
+
+### Bug Fixes
+
+* run fastapi directly instead of via uv run in production image ([3d1e605](https://github.com/krcm0209/antenna/commit/3d1e6058ce041688c2ed6cb31d558eaf7153629e))
+
 ## [0.2.4](https://github.com/krcm0209/antenna/compare/v0.2.3...v0.2.4) (2026-04-01)
 
 
