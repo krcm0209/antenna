@@ -19,6 +19,7 @@ for api in [
     "cloudresourcemanager.googleapis.com",  # project-level IAM policy management
     "iamcredentials.googleapis.com",        # WIF token exchange for GitHub Actions
     "storage.googleapis.com",               # GCS bucket for FCC database
+    "iap.googleapis.com",                   # Identity-Aware Proxy for auth
 ]:
     short = api.split(".")[0]
     apis[short] = gcp.projects.Service(
@@ -135,6 +136,39 @@ gcp.storage.BucketIAMMember(
     member=deploy_sa.member,
 )
 
+# --- Cloud Run Service ---
+
+project_info = gcp.organizations.get_project(project_id=project)
+
+cloud_run = gcp.cloudrunv2.Service(
+    "antenna-service",
+    name="antenna",
+    location=region,
+    ingress="INGRESS_TRAFFIC_ALL",
+    iap_enabled=True,
+    deletion_protection=False,
+    template={
+        "containers": [{
+            "image": f"{region}-docker.pkg.dev/{project}/antenna/antenna:latest",
+            "resources": {"limits": {"memory": "512Mi", "cpu": "1"}},
+        }],
+        "scaling": {"min_instance_count": 0, "max_instance_count": 1},
+    },
+    opts=pulumi.ResourceOptions(
+        depends_on=[apis["run"], apis["iap"]],
+        ignore_changes=["template.containers[0].image"],
+    ),
+)
+
+# Allow the IAP service agent to invoke the Cloud Run service
+gcp.cloudrunv2.ServiceIamMember(
+    "iap-invoker",
+    name=cloud_run.name,
+    location=region,
+    role="roles/run.invoker",
+    member=f"serviceAccount:service-{project_info.number}@gcp-sa-iap.iam.gserviceaccount.com",
+)
+
 # --- Outputs (values needed as GitHub secrets) ---
 
 pulumi.export("project_id", project)
@@ -145,3 +179,4 @@ pulumi.export(
     pulumi.Output.concat(region, "-docker.pkg.dev/", project, "/antenna"),
 )
 pulumi.export("fcc_db_bucket", fcc_db_bucket.name)
+pulumi.export("service_url", cloud_run.uri)

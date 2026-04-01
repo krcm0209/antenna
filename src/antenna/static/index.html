@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Antenna Dashboard</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <h1>Antenna</h1>
+    <span id="status">Click the map to find stations</span>
+  </header>
+
+  <div class="main">
+    <div id="sidebar">
+      <div class="controls">
+        <div class="search-row">
+          <input id="search-input" type="text" placeholder="Search callsign, ID, or licensee">
+          <button id="search-btn">Search</button>
+        </div>
+        <div class="filter-row">
+          <select id="service-filter">
+            <option value="">All services</option>
+            <option value="FM">FM</option>
+            <option value="AM">AM</option>
+          </select>
+          <select id="sort-by">
+            <option value="distance">Sort: Distance</option>
+            <option value="frequency">Sort: Frequency</option>
+            <option value="signal">Sort: Signal</option>
+          </select>
+        </div>
+      </div>
+      <div id="station-list">
+        <div class="empty">Click the map to find stations at a location</div>
+      </div>
+    </div>
+    <div id="map"></div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

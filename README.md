@@ -127,6 +127,7 @@ Note: the `fcc.db` file must exist before building the image. Run the sync first
 
 GCP infrastructure is managed with [Pulumi](https://www.pulumi.com/) in the `infra/` directory. It provisions:
 
+- Cloud Run service with IAP (Identity-Aware Proxy)
 - Artifact Registry (Docker repo)
 - Cloud Storage bucket (FCC database)
 - Service account for GitHub Actions
@@ -151,6 +152,23 @@ GitHub Actions workflows in `.github/workflows/`:
 | `deploy.yml` | Release published or manual | Downloads `fcc.db` from GCS, builds image, deploys to Cloud Run |
 | `sync.yml` | Weekly (Monday 06:00 UTC) or manual | Rebuilds `fcc.db` from FCC APIs, preserves AM contours, uploads to GCS |
 | `seed-am.yml` | Manual (one-time) | Batched initial seed of AM contours across 7 parallel jobs |
+
+## Authentication (IAP)
+
+Access is controlled by [Identity-Aware Proxy](https://cloud.google.com/iap) on Cloud Run (free, no load balancer). IAP is enabled via Pulumi; user access is managed in the GCP Console:
+
+1. **OAuth consent screen**: APIs & Services > OAuth consent screen > External > add your email as test user
+2. **Enable IAP**: Security > Identity-Aware Proxy > toggle on for the `antenna` Cloud Run service
+3. **Grant access**: Add Gmail addresses with the `IAP-secured Web App User` role
+
+## Dashboard
+
+The web dashboard is served at `/dashboard` (root `/` redirects there). Features:
+
+- Click the map to find all stations covering a location
+- View broadcast contour overlays on the map
+- Search stations by callsign, facility ID, or licensee
+- Filter by FM/AM and sort by distance, frequency, or signal strength
 
 ## Development
 

@@ -1,8 +1,11 @@
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 import httpx
 from fastapi import FastAPI, Request, Response
+from fastapi.responses import RedirectResponse
+from fastapi.staticfiles import StaticFiles
 from sqlmodel import Session, create_engine
 
 from antenna.config import settings
@@ -36,9 +39,15 @@ app.include_router(contours.router)
 app.include_router(lookup.router)
 
 
+_API_PREFIXES = ("/stations", "/contours", "/lookup")
+
+
 @app.middleware("http")
 async def db_session_middleware(request: Request, call_next) -> Response:
-    """Provide a SQLModel session and per-request raw connection."""
+    """Provide a SQLModel session and per-request raw connection for API routes."""
+    if not request.url.path.startswith(_API_PREFIXES):
+        return await call_next(request)
+
     raw_conn = get_connection(settings.db_path, readonly=True)
     try:
         with Session(request.app.state.engine) as session:
@@ -65,3 +74,11 @@ async def upstream_error_handler(request: Request, exc: httpx.HTTPStatusError) -
 @app.get("/health")
 def health() -> dict[str, str]:
     return {"status": "ok"}
+
+
+@app.get("/", include_in_schema=False)
+def root():
+    return RedirectResponse(url="/dashboard")
+
+
+app.mount("/dashboard", StaticFiles(directory=Path(__file__).parent / "static", html=True), name="dashboard")
