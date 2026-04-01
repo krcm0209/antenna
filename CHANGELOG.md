@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.1](https://github.com/krcm0209/antenna/compare/v0.4.0...v0.4.1) (2026-04-01)
+
+
+### Bug Fixes
+
+* **dashboard:** use featureGroup for contour layer to support getBounds ([06f421d](https://github.com/krcm0209/antenna/commit/06f421da8ed096e53f108542c72acbdb7c074d58))
+
 ## [0.4.0](https://github.com/krcm0209/antenna/compare/v0.3.0...v0.4.0) (2026-04-01)
 
 
