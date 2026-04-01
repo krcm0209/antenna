@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.2](https://github.com/krcm0209/antenna/compare/v0.2.1...v0.2.2) (2026-04-01)
+
+
+### Bug Fixes
+
+* copy README.md into Docker image for uv_build ([1eac2c6](https://github.com/krcm0209/antenna/commit/1eac2c6036a5883f4789142ea954928206e3db09))
+
 ## [0.2.1](https://github.com/krcm0209/antenna/compare/v0.2.0...v0.2.1) (2026-04-01)
 
 
