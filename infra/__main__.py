@@ -42,6 +42,19 @@ repo = gcp.artifactregistry.Repository(
     format="DOCKER",
     location=region,
     description="Antenna container images",
+    cleanup_policy_dry_run=False,
+    cleanup_policies=[
+        {
+            "id": "keep-latest",
+            "action": "KEEP",
+            "most_recent_versions": {"keep_count": 1},
+        },
+        {
+            "id": "delete-old",
+            "action": "DELETE",
+            "condition": {"older_than": "604800s"},  # 7 days
+        },
+    ],
     opts=depends_on_api("artifactregistry"),
 )
 
