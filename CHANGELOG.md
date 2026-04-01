@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/krcm0209/antenna/compare/v0.2.5...v0.3.0) (2026-04-01)
+
+
+### Features
+
+* switch production image to distroless cc-debian13 ([f4071d5](https://github.com/krcm0209/antenna/commit/f4071d55a4bd57d593a513d6fb440a8784be06d8))
+
 ## [0.2.5](https://github.com/krcm0209/antenna/compare/v0.2.4...v0.2.5) (2026-04-01)
 
 
