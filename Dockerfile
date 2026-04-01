@@ -15,11 +15,11 @@ CMD ["sleep", "infinity"]
 FROM base AS production
 
 COPY pyproject.toml uv.lock ./
-RUN uv sync --frozen --no-dev --no-install-project
+RUN uv sync --frozen --no-dev --no-install-project --no-sources
 
 COPY README.md .
 COPY src/ src/
-RUN uv sync --frozen --no-dev --no-editable
+RUN uv sync --frozen --no-dev --no-editable --no-sources
 COPY fcc.db .
 
 EXPOSE 8080
