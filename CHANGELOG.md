@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.4](https://github.com/krcm0209/antenna/compare/v0.2.3...v0.2.4) (2026-04-01)
+
+
+### Bug Fixes
+
+* use --no-install-workspace for Docker build with uv workspaces ([a26c5f0](https://github.com/krcm0209/antenna/commit/a26c5f04f931912fa28a31c2f5a2c808bc4cd3cd))
+
 ## [0.2.3](https://github.com/krcm0209/antenna/compare/v0.2.2...v0.2.3) (2026-04-01)
 
 
