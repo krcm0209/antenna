@@ -1,6 +1,6 @@
 [project]
 name = "antenna"
-version = "0.2.3"
+version = "0.2.4"
 description = "A radio station API powered by FCC broadcast data"
 readme = "README.md"
 authors = [
