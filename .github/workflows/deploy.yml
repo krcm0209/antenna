@@ -25,6 +25,9 @@ jobs:
           workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
           service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
 
+      - name: Download fcc.db from GCS
+        run: gcloud storage cp gs://${{ secrets.GCP_FCC_DB_BUCKET }}/fcc.db fcc.db
+
       - name: Configure Docker for Artifact Registry
         run: gcloud auth configure-docker us-east1-docker.pkg.dev --quiet
 

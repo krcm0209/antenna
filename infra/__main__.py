@@ -18,6 +18,7 @@ for api in [
     "iam.googleapis.com",                   # service accounts and role bindings
     "cloudresourcemanager.googleapis.com",  # project-level IAM policy management
     "iamcredentials.googleapis.com",        # WIF token exchange for GitHub Actions
+    "storage.googleapis.com",               # GCS bucket for FCC database
 ]:
     short = api.split(".")[0]
     apis[short] = gcp.projects.Service(
@@ -103,6 +104,24 @@ gcp.serviceaccount.IAMMember(
     member=wif_pool.name.apply(_wif_member),  # ty: ignore[missing-argument, invalid-argument-type]
 )
 
+# --- Cloud Storage (FCC database) ---
+
+fcc_db_bucket = gcp.storage.Bucket(
+    "fcc-db-bucket",
+    name=f"{project}-fcc-data",
+    location=region,
+    uniform_bucket_level_access=True,
+    force_destroy=True,
+    opts=depends_on_api("storage"),
+)
+
+gcp.storage.BucketIAMMember(
+    "deploy-sa-storage-access",
+    bucket=fcc_db_bucket.name,
+    role="roles/storage.objectAdmin",
+    member=deploy_sa.member,
+)
+
 # --- Outputs (values needed as GitHub secrets) ---
 
 pulumi.export("project_id", project)
@@ -112,3 +131,4 @@ pulumi.export(
     "artifact_repo_url",
     pulumi.Output.concat(region, "-docker.pkg.dev/", project, "/antenna"),
 )
+pulumi.export("fcc_db_bucket", fcc_db_bucket.name)

@@ -73,6 +73,24 @@ def insert_contour_geometry(
     )
 
 
+def open_existing_db(db_path: Path) -> tuple[Session, sqlite3.Connection]:
+    """Open an existing SpatiaLite database for appending data.
+
+    Unlike create_db(), this does NOT delete or recreate the database.
+    """
+    raw_conn = get_connection(db_path)
+
+    from sqlalchemy.pool import StaticPool
+
+    engine = create_engine(
+        "sqlite://",
+        creator=lambda: raw_conn,
+        poolclass=StaticPool,
+    )
+    session = Session(engine)
+    return session, raw_conn
+
+
 def finalize_db(session: Session, conn: sqlite3.Connection) -> None:
     """Commit and analyze the database."""
     session.commit()

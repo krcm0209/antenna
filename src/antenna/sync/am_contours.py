@@ -19,8 +19,15 @@ async def fetch_and_insert_am_contours(
     session: Session,
     raw_conn: sqlite3.Connection,
     client: FCCClient,
+    *,
+    offset: int = 0,
+    limit: int | None = None,
 ) -> int:
-    """Fetch contours for all AM stations that don't have one yet.
+    """Fetch contours for AM stations that don't have one yet.
+
+    Args:
+        offset: Skip this many missing stations (for batched seed jobs).
+        limit: Only fetch this many stations (for batched seed jobs).
 
     Returns the number of contours inserted.
     """
@@ -33,6 +40,11 @@ async def fetch_and_insert_am_contours(
     if not missing:
         logger.info("All AM stations already have contours")
         return 0
+
+    # Apply offset/limit for batched seed jobs
+    missing = missing[offset:]
+    if limit is not None:
+        missing = missing[:limit]
 
     logger.info("Fetching contours for %d AM stations", len(missing))
     count = 0

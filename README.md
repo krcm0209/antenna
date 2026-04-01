@@ -128,6 +128,7 @@ Note: the `fcc.db` file must exist before building the image. Run the sync first
 GCP infrastructure is managed with [Pulumi](https://www.pulumi.com/) in the `infra/` directory. It provisions:
 
 - Artifact Registry (Docker repo)
+- Cloud Storage bucket (FCC database)
 - Service account for GitHub Actions
 - Workload Identity Federation (OIDC, no static keys)
 - Required GCP APIs
@@ -137,17 +138,19 @@ cd infra
 pulumi up
 ```
 
-Stack outputs provide the values needed for GitHub Actions secrets (`GCP_PROJECT_ID`, `GCP_WIF_PROVIDER`, `GCP_SERVICE_ACCOUNT`).
+Stack outputs provide the values needed for GitHub Actions secrets (`GCP_PROJECT_ID`, `GCP_WIF_PROVIDER`, `GCP_SERVICE_ACCOUNT`, `GCP_FCC_DB_BUCKET`).
 
 ## CI/CD
 
-Three GitHub Actions workflows in `.github/workflows/`:
+GitHub Actions workflows in `.github/workflows/`:
 
 | Workflow | Trigger | What it does |
 |----------|---------|--------------|
 | `ci.yml` | Push/PR to main | Lint (ruff), type check (ty), test (pytest) |
 | `release.yml` | Push to main | Maintains a release PR via release-please |
-| `deploy.yml` | Release published or manual | Builds image, pushes to Artifact Registry, deploys to Cloud Run |
+| `deploy.yml` | Release published or manual | Downloads `fcc.db` from GCS, builds image, deploys to Cloud Run |
+| `sync.yml` | Weekly (Monday 06:00 UTC) or manual | Rebuilds `fcc.db` from FCC APIs, preserves AM contours, uploads to GCS |
+| `seed-am.yml` | Manual (one-time) | Batched initial seed of AM contours across 7 parallel jobs |
 
 ## Development
 
