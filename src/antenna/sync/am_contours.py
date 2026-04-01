@@ -56,7 +56,7 @@ async def fetch_and_insert_am_contours(
             )
         except Exception:
             logger.warning(
-                "Failed to fetch contour for AM station %s", station.callsign, exc_info=True
+                "Failed to fetch contour for AM station %s", station.callsign
             )
             continue
 
