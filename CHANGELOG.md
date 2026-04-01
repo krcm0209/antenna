@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.2.0](https://github.com/krcm0209/antenna/compare/v0.1.1...v0.2.0) (2026-04-01)
+
+
+### Features
+
+* add GCS-backed FCC database sync pipeline ([c3115ac](https://github.com/krcm0209/antenna/commit/c3115ac447cb249591f1bc297928dc59fa4a2c40))
+
+
+### Bug Fixes
+
+* **ci:** skip AM contour fetch in weekly sync workflow ([7aff7cc](https://github.com/krcm0209/antenna/commit/7aff7cc25bc4d9811a428838e12f4d864cf98cf4))
+
 ## [0.1.1](https://github.com/krcm0209/antenna/compare/v0.1.0...v0.1.1) (2026-03-31)
 
 
