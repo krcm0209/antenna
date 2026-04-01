@@ -13,7 +13,7 @@ export function initMap(elementId, { onClick } = {}) {
     maxZoom: 19,
   }).addTo(map);
 
-  contourLayer = L.layerGroup().addTo(map);
+  contourLayer = L.featureGroup().addTo(map);
   markerLayer = L.layerGroup().addTo(map);
 
   if (onClick) {
