@@ -24,4 +24,5 @@ COPY fcc.db .
 
 EXPOSE 8080
 
-CMD ["uv", "run", "fastapi", "run", "src/antenna/main.py", "--host", "0.0.0.0", "--port", "8080"]
+ENV PATH="/app/.venv/bin:$PATH"
+CMD ["fastapi", "run", "src/antenna/main.py", "--host", "0.0.0.0", "--port", "8080"]
