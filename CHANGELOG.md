@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/krcm0209/antenna/compare/v0.2.0...v0.2.1) (2026-04-01)
+
+
+### Bug Fixes
+
+* split uv sync in Dockerfile to fix build without source tree ([a7c951d](https://github.com/krcm0209/antenna/commit/a7c951d10833b87e0e980e7a5fee4101246c3f13))
+
 ## [0.2.0](https://github.com/krcm0209/antenna/compare/v0.1.1...v0.2.0) (2026-04-01)
 
 
